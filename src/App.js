@@ -1,46 +1,50 @@
 import { Component } from "react";
 
+
 import logo from "./logo.svg";
 import "./App.css";
+import { isCompositeComponent } from "react-dom/test-utils";
+
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      name: { firstName: "Conor", lastName: "Doyle" },
-      company: "Kennedy Catholic",
+      //look into scraping from wikipedia roster page
+      players: [],
     };
+  }
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => console.log(response))
+      // .then((users) =>
+      //   this.setState(
+      //     () => {
+      //       return { players: users };
+      //     },
+      //     () => {
+      //       console.log(this.state);
+      //     }
+      //   )
+      // );
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hi {this.state.name.firstName} {this.state.name.lastName}. I work at{" "}
-            {this.state.company}, which is okay I guess.
-          </p>
-          <button
-            onClick={() => {
-              this.setState(() => {
-                return {
-                  name: { firstName: "Zog", lastName: "Wog" }
-                }
-              }, 
-              () => {
-                console.log(this.state);
-              });
-              // console.log(this.state);
-            }}
-          >
-            Change Name
-          </button>
-        </header>
+        {this.state.players.map((player) => {
+          return (
+            <div key={player.id}>
+              <h1>{player.name}</h1>
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
+
 
 export default App;
